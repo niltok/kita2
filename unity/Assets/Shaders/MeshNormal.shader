@@ -5,9 +5,7 @@ Shader "Custom/MeshNormal"
 
     SubShader
     {
-        // SubShader Tags 定义何时以及在何种条件下执行某个 SubShader 代码块
-        // 或某个通道。
-        Tags { "RenderType" = "Opaque" "RenderPipeline" = "UniversalPipeline" }
+        Tags { "RenderType" = "Opaque" "RenderPipeline" = "UniversalPipeline" "LightMode" = "UniversalGBuffer" }
 
         Pass
         {
@@ -29,17 +27,32 @@ Shader "Custom/MeshNormal"
                 half3 normal : TEXCOORD0;
             };
 
+            struct g_buffers
+            {
+                half4 albedo : SV_Target0;
+                half4 specular : SV_Target1;
+                half4 normal : SV_Target2;
+                half4 gi : SV_Target3;
+                float depth : SV_Depth;
+            };
+
             varyings vert(attributes attr)
             {
                 varyings var;
                 var.position = TransformObjectToHClip(attr.position.xyz);
-                var.normal = attr.normal * 0.5 + 0.5;
+                var.normal = attr.normal;
                 return var;
             }
 
-            half4 frag(varyings var) : SV_Target
+            g_buffers frag(varyings var) : SV_Target
             {
-                return half4(var.normal, 0.0);
+                g_buffers o;
+                o.albedo = half4(0, 0, 0, 0);
+                o.specular = half4(0, 0, 0, 0);
+                o.normal = half4(var.normal, 0);
+                o.gi = half4(var.normal * 0.5 + 0.5, 0);
+                o.depth = var.position.z;
+                return o;
             }
             ENDHLSL
         }

@@ -5,14 +5,7 @@ Shader "Hidden/CopyNormal"
     }
     SubShader
     {
-        Tags
-        {
-            "RenderType"="Opaque"
-            "RenderPipeline" = "UniversalPipeline"
-            "LightMode" = "UniversalGBuffer"
-            "UniversalMaterialType" = "Lit"
-        }
-        // No culling or depth
+        Tags {}
         Cull Off ZWrite Off ZTest Always
 
         Pass
@@ -22,37 +15,32 @@ Shader "Hidden/CopyNormal"
             #pragma fragment frag
 
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
-            #include "Packages/com.unity.render-pipelines.universal/Shaders/Utils/Deferred.hlsl"
-            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Shadows.hlsl"
 
+            TEXTURE2D(_GBuffer2); SAMPLER(sampler_GBuffer2);
+            
             struct attributes
             {
                 float4 position : POSITION;
-                half3 normal : NORMAL;
+                float2 texcoord : TEXCOORD0;
             };
 
             struct varyings
             {
                 float4 position : SV_POSITION;
-                half3 normal : TEXCOORD0;
+                half2 uv : TEXCOORD1;
             };
 
-            #define GBUFFER0 0
-            
-            FRAMEBUFFER_INPUT_HALF(GBUFFER0);
- 
             varyings vert(attributes attr)
             {
                 varyings var;
                 var.position = TransformObjectToHClip(attr.position.xyz);
-                var.normal = attr.normal * 0.5 + 0.5;
+                var.uv = attr.texcoord;
                 return var;
             }
 
             half4 frag(varyings var) : SV_Target
             {
-                half4 gbuffer0 = LOAD_FRAMEBUFFER_INPUT(GBUFFER0, var.position.xyz);
-                return gbuffer0;
+                return SAMPLE_TEXTURE2D(_GBuffer2, sampler_GBuffer2, var.uv) * 0.5 + 0.5;
             }
             ENDHLSL
         }
