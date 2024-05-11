@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f62c9c65cf3354c93be831c8bc075510, type: 3}
   m_Name: SSAO
   m_EditorClassIdentifier: 
-  m_Active: 1
+  m_Active: 0
   m_Settings:
     AOMethod: 1
     Downsample: 0
@@ -35,6 +35,20 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 3302065f671a8450b82c9ddf07426f3a, type: 3}
   - {fileID: 2800000, guid: 56a77a3e8d64f47b6afe9e3c95cb57d5, type: 3}
   m_Shader: {fileID: 4800000, guid: 0849e84e3d62649e8882e9d6f056a017, type: 3}
+--- !u!114 &-801067538268382012
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d8146c36f40e694a9a8fdc661f3807f, type: 3}
+  m_Name: DepthRenderFeature
+  m_EditorClassIdentifier: 
+  m_Active: 0
+  event: 1000
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55,7 +69,8 @@ MonoBehaviour:
   - {fileID: -1878332245247344467}
   - {fileID: 2888658164831316988}
   - {fileID: 8954278630566034552}
-  m_RendererFeatureMap: adc0de57c6d2eee5fc6b4dd04b931628787cc202f9fc437c
+  - {fileID: -801067538268382012}
+  m_RendererFeatureMap: adc0de57c6d2eee5fc6b4dd04b931628787cc202f9fc437cc49c6a745109e2f4
   m_UseNativeRenderPass: 0
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
   xrSystemData: {fileID: 11400000, guid: 60e1133243b97e347b653163a8c01b64, type: 2}
@@ -110,7 +125,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a48b24a16985ee48b562e44c10837d4, type: 3}
   m_Name: NormalRenderFeature
   m_EditorClassIdentifier: 
-  m_Active: 0
+  m_Active: 1
   event: 1000
 --- !u!114 &8954278630566034552
 MonoBehaviour:
@@ -124,5 +139,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2efc20ab6e4b4e12ad9f97117c8f7692, type: 3}
   m_Name: ColorRenderFeature
   m_EditorClassIdentifier: 
-  m_Active: 1
+  m_Active: 0
   event: 220
